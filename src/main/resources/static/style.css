@@ -1,0 +1,28 @@
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+
+th, td {
+    text-align: left;
+    padding: 15px;
+}
+
+td.error {
+    background-color: red;
+    color: white;
+}
+
+td.success {
+    background-color: green;
+    color: white;
+}

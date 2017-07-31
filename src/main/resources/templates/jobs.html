@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Docker pod deploy jobs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/style.css"/>
+</head>
+<body>
+<form action="#" th:action="@{/jobs}" th:object="${wrapper}" method="post">
+    <table>
+        <tr>
+            <th>POD</th>
+            <th>Container ID</th>
+            <th>Command</th>
+            <th>Status</th>
+            <th>Return code</th>
+            <th>Launch</th>
+        </tr>
+        <tr th:each="job,stat : *{jobList}">
+            <td th:text="${job.name}" th:class="${job.returnCode} != null ? (${job.returnCode} != 0 ? 'error' : 'success')"></td>
+            <td th:text="${job.containerId}" th:class="${job.returnCode} != null ? (${job.returnCode} != 0 ? 'error' : 'success')"></td>
+            <td th:class="${job.returnCode} != null ? (${job.returnCode} != 0 ? 'error' : 'success')">
+                <p th:if="${not job.running}">
+                    <input type="text" th:field="*{jobList[__${stat.index}__].command}" />
+                </p>
+                <p th:if="${job.running}" th:text="${job.command}"/>
+            </td>
+            <td th:text="${job.status}" th:class="${job.returnCode} != null ? (${job.returnCode} != 0 ? 'error' : 'success')"></td>
+            <td th:text="${job.returnCode}" th:class="${job.returnCode} != null ? (${job.returnCode} != 0 ? 'error' : 'success')"></td>
+            <td th:class="${job.returnCode} != null ? (${job.returnCode} != 0 ? 'error' : 'success')">
+                <p th:if="${not job.running}">
+                    <input type="hidden" th:field="*{jobList[__${stat.index}__].name}" />
+                    <input type="hidden" th:field="*{jobList[__${stat.index}__].containerId}" />
+                    <input type="hidden" th:field="*{jobList[__${stat.index}__].status}" />
+                    <input type="hidden" th:field="*{jobList[__${stat.index}__].returnCode}" />
+                    <input type="checkbox" th:field="*{jobList[__${stat.index}__].selected}" />
+                </p>
+            </td>
+        </tr>
+    </table>
+    <button type="submit" value="submit">Submit</button>
+    <a href="jobs.html" th:href="@{/jobs}">Refresh</a>
+</form>
+</body>
+</html>
